@@ -1,0 +1,41 @@
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+#sobre {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+#cursos .card {
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+
+#cursos .card:hover {
+  transform: scale(1.05);
+}
+
+#contato {
+  background-color: #e9ecef;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+footer {
+  background-color: #343a40;
+  color: white;
+}
+
+/* Cards ajustados com a mesma altura e largura
+Utilização da propriedade object-fit para manter a proporção inicial da imagem e cortar os excessos para não distorcer */
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
