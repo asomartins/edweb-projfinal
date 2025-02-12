@@ -42,7 +42,7 @@ document
 document.querySelectorAll('.btn-primary').forEach((button) => {
   button.style.setProperty(
     'background',
-    'linear-gradient(135deg, #ff007f, #6b2c91, #009de0)',
+    'linear-gradient(135deg, rgba(255, 0, 127, 0.8), rgba(107, 44, 145, 0.6), rgba(0, 157, 224, 0.5))',
     'important',
   );
 
@@ -50,7 +50,7 @@ document.querySelectorAll('.btn-primary').forEach((button) => {
   button.addEventListener('mouseenter', () => {
     button.style.setProperty(
       'background',
-      'linear-gradient(135deg, #ff3399, #7d3faa, #00b8ff)',
+      'linear-gradient(135deg, rgba(255, 0, 127, 1), rgba(107, 44, 145, 0.8), rgba(0, 157, 224, 0.7))',
       'important',
     );
   });
@@ -59,7 +59,7 @@ document.querySelectorAll('.btn-primary').forEach((button) => {
   button.addEventListener('mouseleave', () => {
     button.style.setProperty(
       'background',
-      'linear-gradient(135deg, #ff007f, #6b2c91, #009de0)',
+      'linear-gradient(135deg, rgba(255, 0, 127, 0.8), rgba(107, 44, 145, 0.6), rgba(0, 157, 224, 0.5))',
       'important',
     );
   });
