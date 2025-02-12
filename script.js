@@ -26,9 +26,11 @@ cards.forEach((card) => {
   });
 });
 
-//Adicionando estilos novos para criar um visual dark mode
 
-// Background do body e dos demais containers
+//Adicionando estilos novos para criar um dark mode
+
+// Background e cores de fonte do body e dos demais containers
+
 document
   .querySelectorAll(
     'body, .navbar, .navbar-brand, .nav-link, #sobre, .card, #contato',
@@ -37,6 +39,19 @@ document
     elemento.style.setProperty('background-color', '#01080e', 'important');
     elemento.style.setProperty('color', '#91D5F2', 'important');
   });
+
+  document.querySelectorAll('.nav-link, p, ul')
+  .forEach((elemento) => {
+    elemento.style.setProperty('color','#C3DAE8');
+  })
+
+// Margem nos cabeçalhos para evitar que os cards se sobreponham aos títulos
+
+document.
+querySelectorAll('h2').forEach((elemento) => {
+  elemento.style.setProperty('margin-bottom', '30px', 'important');
+})
+
 
 // Estilo dos botões dos cards
 document.querySelectorAll('.btn-primary').forEach((button) => {
@@ -72,10 +87,8 @@ document
     'linear-gradient(180deg, #01080e, #061a2b)',
     'important',
   );
-/* Estilo da logo recriado com:
-  fontes semelhantes à logo original
- texto da logo em branco para sobrepor o bg darkmode
-*/
+  
+// Função que carrega as fontes do google
 
 function loadGoogleFonts(...fonts) {
   // Cria e adiciona a preconexão com Google Fonts
@@ -101,8 +114,19 @@ function loadGoogleFonts(...fonts) {
   });
 }
 
+const scriptBootstrap = document.createElement("script");
+scriptBootstrap.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js";
+scriptBootstrap.integrity = "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz";
+scriptBootstrap.crossOrigin = "anonymous";
+document.head.appendChild(scriptBootstrap);
+
+
 // Carrega as fontes
 loadGoogleFonts('Montserrat', 'Raleway');
+
+/* Na ausência da imagem da logo original, a logo foi recriada com
+fontes semelhantes e texto em branco para sobrepor o bg darkmode
+*/
 
 // Seleciona o elemento navbar-brand
 const navbarBrand = document.querySelector('.navbar-brand');
@@ -177,7 +201,73 @@ logoContainer.appendChild(logo);
 logoContainer.appendChild(textContainerLeft);
 navbarBrand.appendChild(textContainerRight);
 
-// Cinza Azul Claro: #C3DAE8 → Um branco frio, levemente azulado, que se harmoniza bem com dark mode.
-// Cinza Suave: #D4D8E2 → Mais próximo do branco, mas sem ser tão brilhante.
-// Azul Gelo: #B0D0F0 → Um azul bem clarinho, mantendo a coerência com o esquema de cores.
-// Branco Suave: #E0E5EC → Uma alternativa ao branco puro, sem ser muito intensa.
+//Seção sobre
+
+//Função para adicionar novos itens a uma lista
+function adicionarElementoLista(texto, lista) {
+  let itemLista = document.createElement('li');
+  itemLista.textContent = texto;
+  lista.appendChild(itemLista);
+}
+
+//Seleciona a lista no texto do sobre
+const listaCursos = document.querySelector('#sobre ul');
+
+adicionarElementoLista('Comunicação Digital', listaCursos);
+adicionarElementoLista('Formação de formadores', listaCursos);
+
+
+/* Cards ajustados com a mesma altura e largura
+Utilização da propriedade object-fit para manter a proporção inicial da imagem e cortar os excessos para não distorcer */
+document.querySelectorAll('.card-img-top').forEach((cardimg) => {
+  cardimg.style.setProperty('width', '100%');
+  cardimg.style.setProperty('height', '200px');
+  cardimg.style.setProperty('object-fit', 'cover');
+});
+
+document.querySelectorAll('.card').forEach((card) => {
+  card.style.setProperty('border', '1px solid #91D5F2', 'important')
+});
+
+
+function inserirCarrossel(div) {
+  div.innerHTML = ` <!-- Carrossel fotos -->
+      <div class="carousel slide" data-bs-ride="carousel" id="ads">
+        <div class="carousel-indicators">
+          <button class="active" data-bs-target="ads" data-bs-slide-to="0"></button>
+          <button data-bs-target="#ads" data-bs-slide-to="1"></button>
+          <button data-bs-target="#ads" data-bs-slide-to="2"></button>
+
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="images/pessoa-na-frente-do-computador-trabalhando-html_23-2150040428.jpg" alt="CodeCotton" class="img-fluid">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="images/plano-de-fundo-de-programacao-com-pessoa-trabalhando-com-codigos-no-computador_23-2150010136.jpg" alt="CodeCotton" class="img-fluid">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="image/mulher-de-tiro-medio-segurando-tablet_23-2149151168.avif" alt="CodeCotton" class="img-fluid">
+          </div>
+        </div>
+        <button class="carousel-control-prev" data-bs-target="#ads" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" data-bs-target="#ads" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+      <!-- Fim - Carrossel fotos -->`;
+}
+
+
+const secaoSobre = document.getElementById('sobre');
+
+const containerCarrossel = document.createElement('div');
+containerCarrossel.classList.add('container-carrossel');
+secaoSobre.appendChild(containerCarrossel);
+
+inserirCarrossel(containerCarrossel);
+
+
+
