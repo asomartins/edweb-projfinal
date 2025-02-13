@@ -26,16 +26,6 @@ cards.forEach((card) => {
   });
 });
 
-//Adiciona estilos novos para criar um dark mode
-// Background e cores de fonte do body e demais containers
-
-document
-  .querySelectorAll('body, .navbar, .navbar-brand, .nav-link, .card, #contato')
-  .forEach((elemento) => {
-    elemento.style.setProperty('background-color', '#01080e', 'important');
-    elemento.style.setProperty('color', '#91D5F2', 'important');
-  });
-
 //Adiciona o background separadamente no container sobre através do id, evitando conflito de estilos
 const secaoSobre = document.getElementById('sobre');
 secaoSobre.style.cssText =
@@ -219,21 +209,28 @@ function adicionarElementoLista(texto, lista) {
 //Seleciona a lista no texto do sobre
 const listaCursos = document.querySelector('#sobre ul');
 
-//adiciona os novos cursos na lista através da função
+//Adiciona os novos cursos na lista através da função
 adicionarElementoLista('Comunicação Digital', listaCursos);
 adicionarElementoLista('Formação de formadores', listaCursos);
 
-/* Cards ajustados com a mesma altura e largura
-/* Utilização da propriedade object-fit para manter a proporção inicial da imagem e cortar os excessos para não distorcer */
+/* Garante que todos os cards tenham a mesma altura */
+
+document.querySelectorAll('.card').forEach((card) => {
+  card.style.cssText =
+    'display: flex; flex-direction: column; height: 100%; border: 1px solid #91D5F2 !important;';
+});
+
+document.querySelectorAll('.card-body').forEach((cardbody) => {
+  cardbody.style.cssText =
+    'flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;';
+});
+
+// Imagens dos cards ajustadas com a mesma altura e largura
+// Utilização da propriedade object-fit para manter a proporção inicial da imagem e cortar os excessos para não distorcer
 document.querySelectorAll('.card-img-top').forEach((cardimg) => {
   cardimg.style.setProperty('width', '100%');
   cardimg.style.setProperty('height', '200px');
   cardimg.style.setProperty('object-fit', 'cover');
-});
-
-//Adiciona borda aos cards
-document.querySelectorAll('.card').forEach((card) => {
-  card.style.setProperty('border', '1px solid #91D5F2', 'important');
 });
 
 //Função para inserir um carrossel do bootstrap em uma div
@@ -273,3 +270,13 @@ containerCarrossel.classList.add('container-carrossel');
 secaoSobre.prepend(containerCarrossel);
 
 inserirCarrossel(containerCarrossel);
+
+// Background e cores de fonte do body e demais containers
+//Adiciona estilos novos para criar um dark mode
+
+document
+  .querySelectorAll('body, .navbar, .navbar-brand, .nav-link, .card, #contato')
+  .forEach((elemento) => {
+    elemento.style.setProperty('background-color', '#01080e', 'important');
+    elemento.style.setProperty('color', '#91D5F2', 'important');
+  });
