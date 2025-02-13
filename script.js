@@ -242,14 +242,18 @@ function inserirCarrossel(div) {
           <button class="active" data-bs-target="#ads" data-bs-slide-to="0"></button>
           <button data-bs-target="#ads" data-bs-slide-to="1"></button>
           <button data-bs-target="#ads" data-bs-slide-to="2"></button>
+          <button data-bs-target="#ads" data-bs-slide-to="3"></button>
 
         </div>
         <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="3000">
+         <div class="carousel-item" data-bs-interval="3000">
+            <img src="images/1738671084965.png" alt="Cesae Digital" class="img-fluid">
+          </div> 
+        <div class="carousel-item active" data-bs-interval="3000">
             <img src="images/plano-de-fundo-de-programacao-com-pessoa-trabalhando-com-codigos-no-computador_23-2150010136.jpg" alt="Cesae Digital" class="img-fluid">
           </div>
           <div class="carousel-item" data-bs-interval="3000">
-            <img src="images/pessoa-na-frente-do-computador-trabalhando-html_23-2150040428.jpg" alt="Cesae Digital" class="img-fluid">
+            <img src="images/1717007081169.jpg" alt="Cesae Digital" class="img-fluid">
           </div>
           <div class="carousel-item" data-bs-interval="3000">
             <img src="images/homem-de-codificacao_1098-18084.jpg" alt="Cesae Digital" class="img-fluid">
