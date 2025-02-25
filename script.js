@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /************ Fim - Navbar **************/
 
-/************ Seção Carrossel **************/
+/************ Carrossel **************/
 
 //Função para inserir um carrossel do bootstrap em um elemento
 function inserirCarrossel(elemento) {
@@ -211,18 +211,23 @@ function inserirCarrossel(elemento) {
       <!-- Fim - Carrossel fotos -->`;
 }
 
-//Seleciona a section sobre e altera a cor anterior do background do container sobre através do id, evitando conflito de estilos
+//Seleciona a seção sobre e altera a cor anterior do background do container sobre através do id, evitando conflito de estilos
 const secaoSobre = document.getElementById('sobre');
+
 secaoSobre.style.cssText =
   'background-color: #01080e !important; padding: 0; border-radius: 0;';
 
-//Cria uma section para o carrossel e insere antes da section sobre
-const secaoCarrossel = document.createElement('section');
-secaoCarrossel.id = 'carrossel';
-secaoSobre.parentNode.insertBefore(secaoCarrossel, secaoSobre);
+//Cria uma div para o carrossel e insere antes da section sobre
+const divCarrossel = document.createElement('div');
+divCarrossel.id = 'carrossel';
+secaoSobre.insertBefore(divCarrossel, secaoSobre.firstChild);
+divCarrossel.classList.add('mb-5');
+
+//Caso queira mudar p/ opção de Carrossel expandido:
+// secaoSobre.parentNode.insertBefore(divCarrossel, secaoSobre);
 
 //Adiciona o carrossel dentro da section carrossel
-inserirCarrossel(secaoCarrossel);
+inserirCarrossel(divCarrossel);
 
 //Posiciona melhor as setas do carrossel
 document
@@ -231,7 +236,7 @@ document
     control.style.cssText = 'width: 7%';
   });
 
-/************ Fim - Seção Carrossel **************/
+/************ Fim - Carrossel **************/
 
 /************ Seção Sobre  **************/
 
@@ -254,7 +259,14 @@ const listaCursos = document.querySelector('#sobre ul');
 adicionarElementoLista('Comunicação Digital', listaCursos);
 adicionarElementoLista('Formação de formadores', listaCursos);
 
-// Estilo dos botões dos cards
+/************ FIM - Seção Sobre  **************/
+
+/************ Seção Cursos  **************/
+
+const secaoCursos = document.querySelector('#cursos');
+secaoCursos.style.setProperty('padding', '0');
+
+// Estilo dos botões
 document.querySelectorAll('.btn-primary').forEach((button) => {
   button.style.cssText =
     'background: linear-gradient(135deg, rgba(255, 0, 127, 0.8), rgba(107, 44, 145, 0.6), rgba(0, 157, 224, 0.5)) !important; border: none;';
@@ -304,25 +316,163 @@ cards.forEach((card) => {
   });
 });
 
-/************ Fim - Seção Sobre  **************/
+/************ Fim - Seção Cursos  **************/
 
 /************ Seção Contato **************/
 
+const secaoContato = document.getElementById('contato');
+
+document.querySelectorAll('.card, #contato').forEach((elemento) => {
+  elemento.style.setProperty('background-color', '#061a2b', 'important');
+  elemento.style.setProperty('border', '1px solid #91D5F2', 'important');
+});
+
+document.querySelectorAll('.form-group').forEach((elemento) => {
+  elemento.classList.add('mb-3');
+});
+
+const divNomeError = document.createElement('div');
+divNomeError.classList.add('text-danger', 'mt-2', 'd-none');
+divNomeError.id = 'nomeError';
+
+const divEmailError = document.createElement('div');
+divEmailError.classList.add('text-danger', 'mt-2', 'd-none');
+divEmailError.id = 'emailError';
+
+const divContatoError = document.createElement('div');
+divContatoError.classList.add('text-danger', 'mt-2', 'd-none');
+divContatoError.id = 'contatoError';
+
+const divRegiaoError = document.createElement('div');
+divRegiaoError.classList.add('text-danger', 'mt-2', 'd-none');
+divRegiaoError.id = 'regiaoError';
+
+const divMensagemError = document.createElement('div');
+divMensagemError.classList.add('text-danger', 'mt-2', 'd-none');
+divMensagemError.id = 'mensagemError';
+
+const inputNome = document.getElementById('nome');
+inputNome.insertAdjacentElement('afterend', divNomeError);
+
+const inputEmail = document.getElementById('email');
+inputEmail.insertAdjacentElement('afterend', divEmailError);
+
+const inputContato = document.getElementById('contatoFormulario');
+inputContato.insertAdjacentElement('afterend', divContatoError);
+
+const selectRegiao = document.getElementById('regiao');
+selectRegiao.insertAdjacentElement('afterend', divRegiaoError);
+
+const textAreaMensagem = document.getElementById('mensagem');
+textAreaMensagem.insertAdjacentElement('afterend', divMensagemError);
+
 // Validação do formulário de contato
+
 document
   .getElementById('formulario-contato')
   .addEventListener('submit', function (event) {
     event.preventDefault();
 
-    let nome = document.getElementById('nome').value;
-    let email = document.getElementById('email').value;
+    // Remove mensagens de erro antigas
+    divNomeError.classList.add('d-none');
+    divEmailError.classList.add('d-none');
+    divContatoError.classList.add('d-none');
+    divRegiaoError.classList.add('d-none');
+    divMensagemError.classList.add('d-none');
 
-    if (nome == '' || email == '') {
-      alert('Por favor, preencha todos os campos obrigatórios.');
-    } else {
+    // Variável para rastrear erros
+    let hasError = false;
+
+    if (!validarNome(inputNome)) {
+      divNomeError.classList.remove('d-none');
+      hasError = true;
+    }
+
+    // Valida o campo do e-mail através da função validarEmail()
+    if (!validarEmail(inputEmail)) {
+      divEmailError.classList.remove('d-none');
+      hasError = true;
+    }
+
+    // Valida o campo de contato através da função validarContato()
+    if (!validarContato(inputContato.value)) {
+      divContatoError.textContent =
+        'Por favor, insira um número de contato válido.';
+      divContatoError.classList.remove('d-none');
+      hasError = true;
+    }
+
+    //Verifica se foi selecionada alguma região no dropdown
+    if (selectRegiao.value === '') {
+      divRegiaoError.textContent = 'Por favor, selecione uma região.';
+      divRegiaoError.classList.remove('d-none');
+      hasError = true;
+    }
+
+    if (!validarMensagem(textAreaMensagem)) {
+      divMensagemError.classList.remove('d-none');
+      hasError = true;
+    }
+
+    //Se não houver erros, exibe a msg de sucesso e limpa os campos do form
+    if (!hasError) {
       alert('Formulário enviado com sucesso!');
+      document.getElementById('formulario-contato').reset();
     }
   });
+
+// Função de validação do campo nome no form
+function validarNome() {
+  if (inputNome.value.trim() === '') {
+    divNomeError.textContent = 'O nome não pode estar vazio.';
+    return false;
+  } else if (inputNome.value.length > 40) {
+    divNomeError.textContent = 'O nome excedeu o máximo de caracteres.';
+    return false;
+  }
+  return true;
+}
+
+// Função de validação do campo e-mail no form
+function validarEmail(inputEmail) {
+  // Expressão regular para validar o endereço de e-mail
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Verifica se o campo e-mail está vazio
+  if (!inputEmail.value.trim()) {
+    divEmailError.textContent = 'O campo de e-mail é obrigatório.';
+    return false;
+  }
+
+  //Valida o campo do e-mail
+  if (!emailRegex.test(inputEmail.value.trim())) {
+    divEmailError.textContent = 'Por favor, insira um e-mail válido.';
+    return false;
+  }
+
+  return true;
+}
+
+// Função de validação de contato p/ o form
+function validarContato(numero) {
+  // Expressão regular para validar o número de telefone
+  // Exemplo: espera-se um número de 9 ou 13 dígitos (com ou sem codigo do país)
+  const regex = /^\d{9,13}$/;
+  return regex.test(numero);
+}
+
+// Valida o campo da mensagem
+function validarMensagem(mensagem) {
+  if (textAreaMensagem.value.trim() === '') {
+    divMensagemError.textContent = 'Por favor, escreva uma mensagem.';
+    return false;
+  } else if (textAreaMensagem.value.length > 300) {
+    divMensagemError.textContent =
+      'A mensagem excedeu o número máximo de caracteres.';
+    return false;
+  }
+  return true;
+}
 
 /************ Fim - Seção Contato **************/
 
@@ -363,15 +513,16 @@ button.addEventListener('click', () => {
 // Background e cores de fonte do body e demais containers
 //Adiciona estilos novos para criar um dark mode
 
-document
-  .querySelectorAll('body, .navbar, .card, #contato')
-  .forEach((elemento) => {
-    elemento.style.setProperty('background-color', '#01080e', 'important');
-    elemento.style.setProperty('color', '#D7E6F3', 'important');
-    elemento.style.setProperty('font-family', '"Montserrat", sans-serif');
-  });
+document.querySelectorAll('body, .navbar, .card-text').forEach((elemento) => {
+  elemento.style.setProperty('color', '#D7E6F3', 'important');
+  elemento.style.setProperty('font-family', '"Montserrat", sans-serif');
+});
 
-//Cores dos links da navbar e outros elementos
+document.querySelectorAll('body, .navbar').forEach((elemento) => {
+  elemento.style.setProperty('background-color', '#01080e', 'important');
+});
+
+//Cores dos links da navbar, titulos e outros elementos
 document
   .querySelectorAll('.nav-link, h2, .card-title, footer')
   .forEach((elemento) => {
